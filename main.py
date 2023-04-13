@@ -51,7 +51,7 @@ def main():
     while running:
         for e in p.event.get():
             if e.type == KEYDOWN:
-                if e.key == K_ESCAPE:
+                if e.key == K_ESCAPE or e.key == K_q:
                     running = False
 
             elif e.type == MOUSEBUTTONDOWN:
@@ -64,20 +64,26 @@ def main():
                 else:
                     sqSelected = (row, col)
                     playerClicks.append(sqSelected)
-                    if len(playerClicks) == 2:
-                        move = Move(playerClicks[0], playerClicks[1], gs.board)
-                        print(move)
-                        print(move.getChessNotation())
-                        gs.makeMove(move)
-                        sqSelected = () # reset state
-                        playerClicks = [] #reset state
+
+                if len(playerClicks) == 2:
+                    move = Move(playerClicks[0], playerClicks[1], gs.board)
+                    print(move)
+                    gs.makeMove(move)
+                    # print([(i.startRow, i.startCol) for i in gs.moveLog])
+                    # print([i.getChessNotation() for i in gs.moveLog])
+
+                    sqSelected = () # reset state
+                    playerClicks = [] #reset state
+                
+            if e.type == KEYDOWN and e.key == K_z:
+                gs.undoMove()
 
             elif e.type == p.QUIT:
                 running = False
 
         drawGameState(screen=screen, gs=gs)
         clock.tick(MAX_FPS)
-        p.display.flip()
+        p.display.flip() # cap nhat lai man hinh
 
 
 if __name__ == "__main__":
