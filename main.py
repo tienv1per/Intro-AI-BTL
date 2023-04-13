@@ -46,6 +46,8 @@ def main():
     gs = GameState()
 
     validMoves = gs.getAllValidMoves()
+    # print(456)
+    # print(validMoves)
     moveMade = False
 
     loadImages()
@@ -72,6 +74,8 @@ def main():
 
                 if len(playerClicks) == 2:
                     move = Move(playerClicks[0], playerClicks[1], gs.board)
+                    # print(123)
+                    # print(validMoves)
                     if move in validMoves:
                         gs.makeMove(move)
                         moveMade = True
@@ -88,6 +92,7 @@ def main():
 
         if moveMade:
             validMoves = gs.getAllValidMoves()
+            moveMade = False
 
         drawGameState(screen=screen, gs=gs)
         clock.tick(MAX_FPS)

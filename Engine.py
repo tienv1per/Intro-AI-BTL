@@ -41,7 +41,7 @@ class GameState():
 
     # get all possible moves without checkmate
     def getAllPossibleMoves(self):
-        moves = [Move((6, 4), (4, 4), self.board)]
+        moves = [] # check if move we mousedown with the move we defined here
         for r in range(len(self.board)): # number of rows
             for c in range(len(self.board[r])): # number of cols in given row
                 turn = self.board[r][c][0] # color of chess
@@ -56,7 +56,30 @@ class GameState():
 
     # get all possible moves for pawn and add this move to the list moves
     def getPawnMoves(self, r, c, moves):
-        pass
+        if self.whiteToMove: 
+            if self.board[r-1][c] == "--": # tien len 1 buoc
+                moves.append(Move((r, c), (r-1, c), self.board))
+                if r == 6 and self.board[r-2][c] == "--": # nuoc di dau, tien 2 buoc
+                    moves.append(Move((r, c), (r-2, c), self.board))
+            
+            if c - 1 >= 0:
+                if self.board[r-1][c-1][0] == "b": # kiem tra quan den
+                    moves.append(Move((r, c), (r-1, c-1), self.board))
+            if c + 1 <= 7:
+                if self.board[r-1][c+1][0] == "b":
+                    moves.append(Move((r, c), (r-1, c+1), self.board))
+        else:
+            if self.board[r+1][c] == "--":
+                moves.append(Move((r, c), (r+1, c), self.board))
+                if r == 1 and self.board[r+2][c] == "--":
+                    moves.append(Move((r, c), (r+2, c), self.board))
+            
+            if c - 1 >= 0:
+                if self.board[r+1][c-1][0] == "w":
+                    moves.append(Move((r, c), (r+1, c-1), self.board))
+            if c + 1 <= 7:
+                if self.board[r+1][c+1][0] == "w":
+                    moves.append(Move((r, c), (r+1, c+1), self.board))
 
     # get all possible moves for rook and add this move to the list moves
     def getRookMoves(self, r, c, moves):
@@ -88,7 +111,6 @@ class Move():
 
     def __eq__(self, other):
         if isinstance(other, Move):
-            print(123)
             return other.moveID == self.moveID
 
 
