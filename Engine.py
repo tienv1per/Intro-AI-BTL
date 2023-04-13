@@ -49,10 +49,6 @@ class GameState():
                 turn = self.board[r][c][0] # color of chess
                 if (turn == "w" and self.whiteToMove) or (turn == "b" and not self.whiteToMove):
                     piece = self.board[r][c][1]
-                    # if piece == "p":
-                    #     self.getPawnMoves(r, c, moves)
-                    # elif piece == "R":
-                    #     self.getRookMoves(r, c, moves)
                     self.makefunctions[piece](r, c, moves)
         
         return moves
@@ -108,7 +104,17 @@ class GameState():
                     break
     
     def getKnightMoves(self, r, c, moves):
-        pass
+        directions = ((-2, 1), (-2, -1), (-1, 2), (-1, -2),
+                      (1, -2), (2, -1), (1, 2), (2, 1))
+        allyColor = "w" if self.whiteToMove else "b"
+
+        for d in directions:
+            endRow = r + d[0]
+            endCol = c + d[1]
+            if 0 <= endRow <= 7 and 0 <= endCol <= 7:
+                endPiece = self.board[endRow][endCol]
+                if endPiece[0] != allyColor: # doi phuong hoac o trong
+                    moves.append(Move((r, c), (endRow, endCol), self.board))
 
     def getBishopMoves(self, r, c, moves):
         directions = ((-1, -1), (-1, 1), (1, -1), (1, 1))
@@ -131,11 +137,21 @@ class GameState():
                     break
 
     def getQueenMoves(self, r, c, moves):
-        pass 
+        self.getRookMoves(r, c, moves)
+        self.getBishopMoves(r, c, moves) 
 
     def getKingMoves(self, r, c, moves):
-        pass 
+        directions = ((-1, 0), (-1, 1), (0, 1), (1, 1), 
+                      (1, 0), (1, -1), (0, -1), (-1, -1))
+        allyColor = "w" if self.whiteToMove else "b"
 
+        for i in range(8):
+            endRow = r + directions[i][0]
+            endCol = c + directions[i][1]
+            if 0 <= endRow <= 7 and 0 <= endCol <= 7:
+                endPiece = self.board[endRow][endCol]
+                if endPiece[0] != allyColor:
+                    moves.append(Move((r, c), (endRow, endCol), self.board))
 
 
 class Move():
@@ -162,6 +178,7 @@ class Move():
         self.pieceCaptured = board[self.endRow][self.endCol]
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
 
+    # override equals method
     def __eq__(self, other):
         if isinstance(other, Move):
             return other.moveID == self.moveID
