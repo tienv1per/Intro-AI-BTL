@@ -10,6 +10,7 @@ SQ_SIZE = HEIGHT // DIMENSION
 MAX_FPS = 15 # for animations
 IMAGES = {}
 
+
 def loadImages():
     pieces = ["bR", "bN", "bB", "bQ", "bK", "bp", "wR", "wN", "wB", "wQ", "wK", "wp"]
     for piece in pieces:
@@ -43,6 +44,10 @@ def main():
     clock = p.time.Clock()
     screen.fill(Color("white"))
     gs = GameState()
+
+    validMoves = gs.getAllValidMoves()
+    moveMade = False
+
     loadImages()
     running = True
     sqSelected = () # no square is selected, keep track of the last click of user(tuple: (row, col))
@@ -67,19 +72,22 @@ def main():
 
                 if len(playerClicks) == 2:
                     move = Move(playerClicks[0], playerClicks[1], gs.board)
-                    print(move)
-                    gs.makeMove(move)
-                    # print([(i.startRow, i.startCol) for i in gs.moveLog])
-                    # print([i.getChessNotation() for i in gs.moveLog])
+                    if move in validMoves:
+                        gs.makeMove(move)
+                        moveMade = True
 
                     sqSelected = () # reset state
                     playerClicks = [] #reset state
                 
             if e.type == KEYDOWN and e.key == K_z:
                 gs.undoMove()
+                validMoves = gs.getAllValidMoves()
 
             elif e.type == p.QUIT:
                 running = False
+
+        if moveMade:
+            validMoves = gs.getAllValidMoves()
 
         drawGameState(screen=screen, gs=gs)
         clock.tick(MAX_FPS)
