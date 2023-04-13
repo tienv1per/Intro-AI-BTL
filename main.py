@@ -46,8 +46,6 @@ def main():
     gs = GameState()
 
     validMoves = gs.getAllValidMoves()
-    # print(456)
-    # print(validMoves)
     moveMade = False
 
     loadImages()
@@ -74,14 +72,13 @@ def main():
 
                 if len(playerClicks) == 2:
                     move = Move(playerClicks[0], playerClicks[1], gs.board)
-                    # print(123)
-                    # print(validMoves)
                     if move in validMoves:
                         gs.makeMove(move)
                         moveMade = True
-
-                    sqSelected = () # reset state
-                    playerClicks = [] #reset state
+                        sqSelected = () # reset state
+                        playerClicks = [] #reset state
+                    else:
+                        playerClicks = [sqSelected]
                 
             if e.type == KEYDOWN and e.key == K_z:
                 gs.undoMove()

@@ -22,12 +22,21 @@ class GameState():
         self.moveLog = []
         self.makefunctions = {"p": self.getPawnMoves, "R": self.getRookMoves, "N": self.getKnightMoves, 
                               "B": self.getBishopMoves, "Q": self.getQueenMoves, "K": self.getKingMoves}
+        self.whiteKingLocation = (7, 4)
+        self.blackKingLocation = (0, 4)
+        self.checkMate = False
+        self.staleMate = False
     
     def makeMove(self, move):
         self.board[move.startRow][move.startCol] = "--"
         self.board[move.endRow][move.endCol] = move.pieceMoved
         self.moveLog.append(move) # log the move so we can undo it later
         self.whiteToMove = not self.whiteToMove # swap players
+        # update king's location
+        if move.pieceMoved == "wK":
+            self.whiteKingLocation = (move.endRow, move.endCol)
+        elif move.pieceMoved == "bK":
+            self.blackKingLocation = (move.endRow, move.endCol)
     
     # undo the last move made
     def undoMove(self):
@@ -36,10 +45,48 @@ class GameState():
             self.board[move.startRow][move.startCol] = move.pieceMoved
             self.board[move.endRow][move.endCol] = move.pieceCaptured
             self.whiteToMove = not self.whiteToMove
+            if move.pieceMoved == "wK":
+                self.whiteKingLocation = (move.startRow, move.startCol)
+            elif move.pieceMoved == "bK":
+                self.blackKingLocation = (move.startRow, move.startCol)
     
     # get all the moves with checkmate
     def getAllValidMoves(self):
-        return self.getAllPossibleMoves()
+        moves = self.getAllPossibleMoves()
+        for i in range(len(moves) - 1, -1, -1):
+            self.makeMove(moves[i])
+            self.whiteToMove = not self.whiteToMove
+            if self.inCheck():
+                moves.remove(moves[i])
+            self.whiteToMove = not self.whiteToMove
+            self.undoMove()
+        if len(moves) == 0:
+            if self.inCheck():
+                self.checkMate = True
+            else: 
+                self.staleMate = True
+        else:
+            self.staleMate = False
+            self.checkMate = False
+
+        return moves
+    
+    # check if the king is currently checked
+    def inCheck(self):
+        if self.whiteToMove:
+            return self.squareUnderAttack(self.whiteKingLocation[0], self.whiteKingLocation[1])
+        else: 
+            return self.squareUnderAttack(self.blackKingLocation[0], self.blackKingLocation[1])        
+    
+    # check if the location (r, c) can be attacked by opponent
+    def squareUnderAttack(self, r, c):
+        self.whiteToMove = not self.whiteToMove # switch to opponent's turn
+        rivalMoves = self.getAllPossibleMoves()
+        self.whiteToMove = not self.whiteToMove
+        for move in rivalMoves:
+            if move.endRow == r and move.endCol == c:
+                return True
+        return False
 
     # get all possible moves without checkmate
     def getAllPossibleMoves(self):
@@ -174,8 +221,8 @@ class Move():
         self.startCol = startSq[1]
         self.endRow = endSq[0]
         self.endCol = endSq[1]
-        self.pieceMoved = board[self.startRow][self.startCol]
-        self.pieceCaptured = board[self.endRow][self.endCol]
+        self.pieceMoved = board[self.startRow][self.startCol] # gia tri quan co duoc move
+        self.pieceCaptured = board[self.endRow][self.endCol] # gia tri quan co (hoac o trong) bi thay the
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
 
     # override equals method
