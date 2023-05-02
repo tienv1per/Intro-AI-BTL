@@ -1,6 +1,6 @@
 # handle user input and display 
 import pygame as p
-from Engine  import GameState, Move
+from ChessEngine  import GameState, Move
 from pygame import Color, Rect
 from pygame.locals import *
 
@@ -72,12 +72,14 @@ def main():
 
                 if len(playerClicks) == 2:
                     move = Move(playerClicks[0], playerClicks[1], gs.board)
-                    if move in validMoves:
-                        gs.makeMove(move)
-                        moveMade = True
-                        sqSelected = () # reset state
-                        playerClicks = [] #reset state
-                    else:
+                    print(move.getChessNotation())
+                    for i in range(len(validMoves)):
+                        if move == validMoves[i]:
+                            gs.makeMove(move)
+                            moveMade = True
+                            sqSelected = () # reset state
+                            playerClicks = [] #reset state
+                    if not moveMade:
                         playerClicks = [sqSelected]
                 
             if e.type == KEYDOWN and e.key == K_z:
@@ -89,6 +91,7 @@ def main():
 
         if moveMade:
             validMoves = gs.getAllValidMoves()
+            # print([i.getChessNotation() for i in validMoves])
             moveMade = False
 
         drawGameState(screen=screen, gs=gs)
