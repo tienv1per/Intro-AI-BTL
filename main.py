@@ -72,13 +72,13 @@ def main():
 
                 if len(playerClicks) == 2:
                     move = Move(playerClicks[0], playerClicks[1], gs.board)
-                    print(move.getChessNotation())
+                    # print(move.getChessNotation())
                     for i in range(len(validMoves)):
                         if move == validMoves[i]:
                             gs.makeMove(move)
                             moveMade = True
                             sqSelected = () # reset state
-                            playerClicks = [] #reset state
+                            playerClicks = [] # reset state
                     if not moveMade:
                         playerClicks = [sqSelected]
                 
@@ -91,7 +91,6 @@ def main():
 
         if moveMade:
             validMoves = gs.getAllValidMoves()
-            # print([i.getChessNotation() for i in validMoves])
             moveMade = False
 
         drawGameState(screen=screen, gs=gs)
