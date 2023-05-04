@@ -1,5 +1,6 @@
 # handle user input and display 
 import pygame as p
+from AI.AI import findRandomMove
 from ChessEngine  import GameState, Move
 from pygame import Color, Rect
 from pygame.locals import *
@@ -103,15 +104,19 @@ def main():
     sqSelected = () # no square is selected, keep track of the last click of user(tuple: (row, col))
     playerClicks = [] # keep track of player clicks (2 tuples: [(6, 4), (4, 4)])
     gameOver = False
+    playerOne = True # if a human is playing white: true, if AI is playing white: false
+    playerTwo = False # if a human is playing black: true, if AI is playing black: false
 
     while running:
+        humanTurn = (gs.whiteToMove and playerOne) or (not gs.whiteToMove and playerTwo)
         for e in p.event.get():
             if e.type == KEYDOWN:
                 if e.key == K_ESCAPE or e.key == K_q:
                     running = False
 
+            # mouse handler 
             elif e.type == MOUSEBUTTONDOWN:
-                if not gameOver:
+                if not gameOver and humanTurn:
                     location = p.mouse.get_pos() # (x, y): location of mouse
                     col = location[0] // SQ_SIZE
                     row = location[1] // SQ_SIZE
@@ -155,12 +160,20 @@ def main():
             elif e.type == p.QUIT:
                 running = False
 
+        # AI move finder logic
+        if not gameOver and not humanTurn:
+            AIMove = findRandomMove(validMoves)
+            gs.makeMove(AIMove)
+            moveMade = True
+            animate = True
+
         if moveMade:
             if animate:
                 animateMove(gs.moveLog[-1], screen, gs.board, clock)
             validMoves = gs.getAllValidMoves()
             moveMade = False
             animate = False
+        
         drawGameState(screen=screen, gs=gs, validMoves=validMoves, sqSelected=sqSelected)
         if gs.checkMate:
             gameOver = True
