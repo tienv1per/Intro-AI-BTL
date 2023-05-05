@@ -1,6 +1,7 @@
 # handle user input and display 
 import pygame as p
-from AI.AI import findRandomMove
+from AI.AI import AI 
+from AI.Greedy import Greedy
 from ChessEngine  import GameState, Move
 from pygame import Color, Rect
 from pygame.locals import *
@@ -10,6 +11,9 @@ DIMENSION = 8 # dimension of chess board
 SQ_SIZE = HEIGHT // DIMENSION
 MAX_FPS = 15 # for animations
 IMAGES = {}
+
+AI = AI()
+Greedy = Greedy()
 
 
 def loadImages():
@@ -162,7 +166,10 @@ def main():
 
         # AI move finder logic
         if not gameOver and not humanTurn:
-            AIMove = findRandomMove(validMoves)
+            # AIMove = AI.findRandomMove(validMoves=validMoves)
+            AIMove = Greedy.findBestMove(gs=gs, validMoves=validMoves)
+            # if AIMove is None:
+            #     AIMove = AI.findRandomMove(validMoves=validMoves)
             gs.makeMove(AIMove)
             moveMade = True
             animate = True
