@@ -2,6 +2,7 @@
 import pygame as p
 from AI.AI import AI 
 from AI.Greedy import Greedy
+from AI.Minimax import Minimax
 from ChessEngine  import GameState, Move
 from pygame import Color, Rect
 from pygame.locals import *
@@ -14,6 +15,7 @@ IMAGES = {}
 
 AI = AI()
 Greedy = Greedy()
+Minimax = Minimax()
 
 
 def loadImages():
@@ -108,7 +110,7 @@ def main():
     sqSelected = () # no square is selected, keep track of the last click of user(tuple: (row, col))
     playerClicks = [] # keep track of player clicks (2 tuples: [(6, 4), (4, 4)])
     gameOver = False
-    playerOne = True # if a human is playing white: true, if AI is playing white: false
+    playerOne = False # if a human is playing white: true, if AI is playing white: false
     playerTwo = False # if a human is playing black: true, if AI is playing black: false
 
     while running:
@@ -150,6 +152,7 @@ def main():
                 validMoves = gs.getAllValidMoves()
                 moveMade = True
                 animate = False
+                gameOver = False
             
             if e.type == KEYDOWN and e.key == K_r: # reset the board 
                 gs = GameState()
@@ -167,10 +170,11 @@ def main():
         # AI move finder logic
         if not gameOver and not humanTurn:
             # AIMove = AI.findRandomMove(validMoves=validMoves)
-            AIMove = Greedy.findBestMove(gs=gs, validMoves=validMoves)
-            # if AIMove is None:
-            #     AIMove = AI.findRandomMove(validMoves=validMoves)
+            # AIMove, maxScore, color = Greedy.findBestMove(gs=gs, validMoves=validMoves)
+            # AIMove = Greedy.findBestMoveTwoLayer(gs=gs, validMoves=validMoves)
+            AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
             gs.makeMove(AIMove)
+            # print(maxScore, color)
             moveMade = True
             animate = True
 

@@ -54,6 +54,9 @@ class GameState():
                 self.whiteKingLocation = (move.startRow, move.startCol)
             elif move.pieceMoved == "bK":
                 self.blackKingLocation = (move.startRow, move.startCol)
+            
+            self.staleMate = False
+            self.checkMate = False
     
     # get all the moves with checkmate
     def getAllValidMoves(self):

@@ -2,10 +2,11 @@ import random
 
 class AI:
     def __init__(self):
-        self.next_move = None
+        self.nextMove = None
         self.pieceScore = {"K": 0, "Q": 10, "R": 5, "B": 3, "N": 3, "p": 1}
         self.CHECKMATE = 100
         self.STALEMATE = 0
+        self.DEPTH = 3
         
     
     # score the board based on material
