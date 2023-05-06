@@ -7,6 +7,8 @@ class AI:
         self.CHECKMATE = 100
         self.STALEMATE = 0
         self.DEPTH = 3
+        self.counter = 0
+        self.turn = 0
         
     
     # score the board based on material

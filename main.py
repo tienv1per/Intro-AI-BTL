@@ -1,8 +1,10 @@
 # handle user input and display 
 import pygame as p
+import random
 from AI.AI import AI 
 from AI.Greedy import Greedy
 from AI.Minimax import Minimax
+from AI.Negamax import Negamax
 from ChessEngine  import GameState, Move
 from pygame import Color, Rect
 from pygame.locals import *
@@ -16,6 +18,7 @@ IMAGES = {}
 AI = AI()
 Greedy = Greedy()
 Minimax = Minimax()
+Negamax = Negamax()
 
 
 def loadImages():
@@ -110,7 +113,7 @@ def main():
     sqSelected = () # no square is selected, keep track of the last click of user(tuple: (row, col))
     playerClicks = [] # keep track of player clicks (2 tuples: [(6, 4), (4, 4)])
     gameOver = False
-    playerOne = False # if a human is playing white: true, if AI is playing white: false
+    playerOne = True # if a human is playing white: true, if AI is playing white: false
     playerTwo = False # if a human is playing black: true, if AI is playing black: false
 
     while running:
@@ -172,9 +175,10 @@ def main():
             # AIMove = AI.findRandomMove(validMoves=validMoves)
             # AIMove, maxScore, color = Greedy.findBestMove(gs=gs, validMoves=validMoves)
             # AIMove = Greedy.findBestMoveTwoLayer(gs=gs, validMoves=validMoves)
-            AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
+            # AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
+            AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
             gs.makeMove(AIMove)
-            # print(maxScore, color)
+            # print(score, color)
             moveMade = True
             animate = True
 
