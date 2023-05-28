@@ -1,6 +1,4 @@
-# handle user input and display 
 import pygame as p
-import random
 from AI.AI import AI 
 from AI.Greedy import Greedy
 from AI.Minimax import Minimax
@@ -13,7 +11,7 @@ from pygame.locals import *
 WIDTH = HEIGHT = 512
 DIMENSION = 8 # dimension of chess board
 SQ_SIZE = HEIGHT // DIMENSION
-MAX_FPS = 15 # for animations
+MAX_FPS = 20 # for animations
 IMAGES = {}
 
 AI = AI()
@@ -181,7 +179,6 @@ def main():
             # AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
             AIMove = Negascout.findMove(gs=gs, validMoves=validMoves)
             gs.makeMove(AIMove)
-            # print(score, color)
             moveMade = True
             animate = True
 

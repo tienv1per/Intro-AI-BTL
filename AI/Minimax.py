@@ -76,22 +76,3 @@ class Minimax(AI):
                 if alpha >= beta:
                     break
             return minScore
-
-    # a positive socre is good for white 
-    # a negative socre is good for black
-    def scoreBoard(self, gs):
-        if gs.checkMate:
-            if gs.whiteToMove:
-                return -self.CHECKMATE # black win
-            else:
-                return self.CHECKMATE # white win
-        elif gs.staleMate:
-            return self.STALEMATE
-        score = 0
-        for row in gs.board:
-            for square in row:
-                if square[0] == "w":
-                    score += self.pieceScore[square[1]]
-                elif square[0] == "b":
-                    score -= self.pieceScore[square[1]]
-        return score
