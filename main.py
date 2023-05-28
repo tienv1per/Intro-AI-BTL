@@ -5,6 +5,7 @@ from AI.AI import AI
 from AI.Greedy import Greedy
 from AI.Minimax import Minimax
 from AI.Negamax import Negamax
+from AI.Negascout import Negascout
 from ChessEngine  import GameState, Move
 from pygame import Color, Rect
 from pygame.locals import *
@@ -19,6 +20,7 @@ AI = AI()
 Greedy = Greedy()
 Minimax = Minimax()
 Negamax = Negamax()
+Negascout = Negascout()
 
 
 def loadImages():
@@ -176,7 +178,8 @@ def main():
             # AIMove, maxScore, color = Greedy.findBestMove(gs=gs, validMoves=validMoves)
             # AIMove = Greedy.findBestMoveTwoLayer(gs=gs, validMoves=validMoves)
             # AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
-            AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
+            # AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
+            AIMove = Negascout.findMove(gs=gs, validMoves=validMoves)
             gs.makeMove(AIMove)
             # print(score, color)
             moveMade = True

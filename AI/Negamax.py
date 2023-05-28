@@ -6,13 +6,14 @@ class Negamax(AI):
     def findMove(self, gs, validMoves):
         random.shuffle(validMoves)
         self.counter = 0
-        # self.findMoveNegaMax(gs, validMoves, self.DEPTH, 1 if gs.whiteToMove else -1)
+        # bestScore = self.findMoveNegaMax(gs, validMoves, self.DEPTH, 1 if gs.whiteToMove else -1)
         bestScore = self.findMoveNegaMaxAlphaBeta(gs, validMoves, self.DEPTH, -self.CHECKMATE, self.CHECKMATE, 1 if gs.whiteToMove else -1)
         self.turn += 1
         print(f"Turn: {self.turn}, bestScore: {bestScore}, movesNum: {self.counter}, move: {self.nextMove.getChessNotation()}")
         return self.nextMove
 
     def findMoveNegaMax(self, gs, validMoves, depth, turn):
+        self.counter += 1
         if depth == 0:
             return turn * self.scoreMaterial(gs)
         maxScore = -self.CHECKMATE
