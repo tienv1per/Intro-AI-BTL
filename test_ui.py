@@ -11,6 +11,7 @@ from pygame.locals import *
 import sys
 import time
 
+
 class ButtonNew:
     def __init__(self, text, width, height, pos, elevation, font, top_color='', bottom_color=''):
         # Core attributes
@@ -73,6 +74,7 @@ class ButtonNew:
                 self.top_rect = self.top_rect.inflate(-50, -10)
                 self.bottom_rect = self.bottom_rect.inflate(-50, -10)
             self.hovered = False
+
 
 WIDTH = 720
 HEIGHT = 720
@@ -162,7 +164,6 @@ def drawPieces(screen, board):
 
 def animateMove(move, screen, board, clock):
     global colors
-    coords = []  # list of coords that animation will be move through
     dR = move.endRow - move.startRow
     dC = move.endCol - move.startCol
     framesPerSquare = 10  # frames to move 1 square
@@ -193,8 +194,6 @@ def drawText(screen, text):
     textLocation = pygame.Rect(0, 0, WIDTH, HEIGHT).move(
         WIDTH/2 - textObject.get_width()/2, HEIGHT/2 - textObject.get_height()/2)
     screen.blit(textObject, textLocation)
-    # textObject = font.render(text, 0, pygame.Color("Gray"))
-    # screen.blit(textObject, textLocation.move(2, 2))
 
 
 def play_game(screen, chosen_algo):
@@ -240,7 +239,6 @@ def play_game(screen, chosen_algo):
 
                     if len(playerClicks) == 2:
                         move = Move(playerClicks[0], playerClicks[1], gs.board)
-                        # print(move.getChessNotation())
 
                         for i in range(len(validMoves)):
                             if move == validMoves[i]:
@@ -273,14 +271,16 @@ def play_game(screen, chosen_algo):
 
         # AI move finder logic
         if not gameOver and not humanTurn:
-            # switch case chosen_algo
 
-            # AIMove = AI.findRandomMove(validMoves=validMoves)
-            # AIMove, maxScore, color = Greedy.findBestMove(gs=gs, validMoves=validMoves)
-            # AIMove = Greedy.findBestMoveTwoLayer(gs=gs, validMoves=validMoves)
-            # AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
-            # AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
-            AIMove = Negascout.findMove(gs=gs, validMoves=validMoves)
+            if chosen_algo == 'Greedy':
+                AIMove = Greedy.findBestMove(gs=gs, validMoves=validMoves)
+            elif chosen_algo == 'Minimax':
+                AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
+            elif chosen_algo == 'Negamax':
+                AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
+            elif chosen_algo == 'Negascout':
+                AIMove = Negascout.findMove(gs=gs, validMoves=validMoves)
+
             gs.makeMove(AIMove)
             moveMade = True
             animate = True
@@ -327,8 +327,6 @@ def choose_algo_action(algo):
 index = 0
 options_list = []
 for algo in algo_option:
-    # option_algo = Button(image=None, pos=(640, 200 + index), text_input=algo,
-    #                      font=get_font(30), base_color="Black", hovering_color="Green")
     option_algo = ButtonNew(
         algo, 400, 80, (160, 160 + index), 5, get_font(30))
     index += 100

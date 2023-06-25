@@ -1,15 +1,15 @@
 import random
 from AI.AI import AI
 
+
 class Greedy(AI):
     def findBestMove(self, gs, validMoves):
-        turnMultiplayer = 1 if gs.whiteToMove else -1 
+        turnMultiplayer = 1 if gs.whiteToMove else -1
         maxScore = -self.CHECKMATE
         bestMove = None
         for playerMove in validMoves:
             gs.makeMove(playerMove)
             score = turnMultiplayer * self.scoreMaterial(gs)
-            # score = -self.scoreMaterial(gs)
             gs.undoMove()
             if gs.checkMate:
                 score = self.CHECKMATE
@@ -18,12 +18,11 @@ class Greedy(AI):
             else:
                 maxScore = score
                 bestMove = playerMove
-                # print(f"Score: {maxScore}, turn: {turnMultiplayer}")
-        return bestMove, maxScore, gs.whiteToMove
-    
+        return bestMove
+
     # find minimum of opponent's best move
     def findBestMoveTwoLayer(self, gs, validMoves):
-        turnMultiplayer = 1 if gs.whiteToMove else -1 
+        turnMultiplayer = 1 if gs.whiteToMove else -1
         opponentMinMaxScore = self.CHECKMATE
         bestPlayerMove = None
         random.shuffle(validMoves)

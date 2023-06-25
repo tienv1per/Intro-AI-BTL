@@ -7,11 +7,8 @@ class Minimax(AI):
         self.counter = 0
         self.turn += 1
         random.shuffle(validMoves)
-        # self.findMoveMinimax(gs, validMoves, self.DEPTH, gs.whiteToMove)
         alpha = -self.CHECKMATE
         beta = self.CHECKMATE
-        bestScore = self.findMoveMiniMaxAlphaBeta(gs, validMoves, self.DEPTH, alpha, beta, True)
-        print(f"Turn: {self.turn}, bestScore: {bestScore}, movesNum: {self.counter}, move: {self.nextMove.getChessNotation()}")
         return self.nextMove
 
     def findMoveMinimax(self, gs, validMoves, depth, whiteToMove):
