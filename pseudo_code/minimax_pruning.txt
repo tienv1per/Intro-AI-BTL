@@ -1,0 +1,25 @@
+	
+	
+	
+	function minimaxAlphaBeta(node, depth, alpha, beta, maximizingPlayer):
+	    if depth = 0 or node is a terminal node:
+		return the heuristic value of node
+	    if maximizingPlayer:
+		bestValue = -INFINITY
+		for each child of node:
+		    value = minimaxAlphaBeta(child, depth - 1, alpha, beta, FALSE)
+		    bestValue = max(bestValue, value)
+		    alpha = max(alpha, bestValue)
+		    if beta <= alpha:
+			break
+		return bestValue
+	    else:
+		bestValue = +INFINITY
+		for each child of node:
+		    value = minimaxAlphaBeta(child, depth - 1, alpha, beta, TRUE)
+		    bestValue = min(bestValue, value)
+		    beta = min(beta, bestValue)
+		    if beta <= alpha:
+			break
+		return bestValue
+

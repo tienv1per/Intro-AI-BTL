@@ -1,0 +1,20 @@
+	
+	
+	
+	function findBestMove(gs, validMoves):
+	    turnMultiplier = 1 if gs.whiteToMove else -1 
+	    maxScore = -CHECKMATE
+	    bestMove = None
+	    for playerMove in validMoves:
+		gs.makeMove(playerMove)
+		score = turnMultiplier * scoreMaterial(gs)
+		gs.undoMove()
+		if gs.checkMate:
+		    score = CHECKMATE
+		else if gs.staleMate:
+		    score = STALEMATE
+		else:
+		    maxScore = score
+		    bestMove = playerMove
+	    return bestMove, maxScore, gs.whiteToMove
+
