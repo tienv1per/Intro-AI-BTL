@@ -1,0 +1,22 @@
+	
+	
+	function findMoveNegaMaxAlphaBeta(gs, validMoves, depth, alpha, beta, turn):
+	    if depth == 0:
+		return turn * scoreMaterial(gs)
+	    maxScore = -CHECKMATE
+	    for move in validMoves:
+		gs.makeMove(move)
+		nextMoves = gs.getAllValidMoves()
+		score = -findMoveNegaMaxAlphaBeta(gs, nextMoves, depth - 1, -beta, -alpha, -turn)
+		gs.undoMove()
+		if score > maxScore:
+		    maxScore = score
+		    if depth == DEPTH:
+		        nextMove = move
+		if maxScore > alpha:
+		    alpha = maxScore
+		
+		if alpha >= beta:
+		    break
+	    return maxScore
+

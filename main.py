@@ -151,6 +151,7 @@ def main():
                             playerClicks = [sqSelected]
                 
             if e.type == KEYDOWN and e.key == K_z: # undo the last move
+                print(1)
                 gs.undoMove()
                 validMoves = gs.getAllValidMoves()
                 moveMade = True
@@ -173,11 +174,11 @@ def main():
         # AI move finder logic
         if not gameOver and not humanTurn:
             # AIMove = AI.findRandomMove(validMoves=validMoves)
-            # AIMove, maxScore, color = Greedy.findBestMove(gs=gs, validMoves=validMoves)
+            AIMove, maxScore, color = Greedy.findBestMove(gs=gs, validMoves=validMoves)
             # AIMove = Greedy.findBestMoveTwoLayer(gs=gs, validMoves=validMoves)
             # AIMove = Minimax.findMove(gs=gs, validMoves=validMoves)
             # AIMove = Negamax.findMove(gs=gs, validMoves=validMoves)
-            AIMove = Negascout.findMove(gs=gs, validMoves=validMoves)
+            # AIMove = Negascout.findMove(gs=gs, validMoves=validMoves)
             gs.makeMove(AIMove)
             moveMade = True
             animate = True

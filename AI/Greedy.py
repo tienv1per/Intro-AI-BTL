@@ -9,7 +9,6 @@ class Greedy(AI):
         for playerMove in validMoves:
             gs.makeMove(playerMove)
             score = turnMultiplayer * self.scoreMaterial(gs)
-            # score = -self.scoreMaterial(gs)
             gs.undoMove()
             if gs.checkMate:
                 score = self.CHECKMATE
@@ -18,7 +17,6 @@ class Greedy(AI):
             else:
                 maxScore = score
                 bestMove = playerMove
-                # print(f"Score: {maxScore}, turn: {turnMultiplayer}")
         return bestMove, maxScore, gs.whiteToMove
     
     # find minimum of opponent's best move

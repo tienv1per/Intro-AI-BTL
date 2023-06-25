@@ -1,0 +1,19 @@
+
+
+
+			function minimax(node, depth, maximizingPlayer):
+			    if depth = 0 or node is a terminal node:
+				return evaluate(node)
+			    if maximizingPlayer:
+				bestValue = -INFINITY
+				for each child of node:
+				    value = minimax(child, depth - 1, FALSE)
+				    bestValue = max(bestValue, value)
+				return bestValue
+			    else:
+				bestValue = +INFINITY
+				for each child of node:
+				    value = minimax(child, depth - 1, TRUE)
+				    bestValue = min(bestValue, value)
+				return bestValue
+

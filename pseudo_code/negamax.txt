@@ -1,0 +1,18 @@
+	
+	
+	function findMoveNegaMax(gs, validMoves, depth, turn):
+	    if depth == 0:
+		return turn * scoreMaterial(gs)
+	    
+	    maxScore = -CHECKMATE
+	    for move in validMoves:
+		gs.makeMove(move)
+		nextMoves = gs.getAllValidMoves()
+		score = -findMoveNegaMax(gs, nextMoves, depth-1, -turn)
+		gs.undoMove()
+		
+		if score > maxScore:
+		    maxScore = score
+	    
+	    return maxScore
+

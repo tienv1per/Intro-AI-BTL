@@ -223,6 +223,7 @@ def play_game(screen, chosen_algo):
         for e in pygame.event.get():
             if e.type == KEYDOWN:
                 if e.key == K_ESCAPE or e.key == K_q:
+                    print(123)
                     running = False
 
             # mouse handler
