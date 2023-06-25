@@ -131,16 +131,12 @@ def highlightSquares(screen, gs, validMoves, sqSelected):
                     screen.blit(s, (SQ_SIZE*move.endCol, SQ_SIZE*move.endRow))
 
 # responsible for all the graphics within a current game state
-
-
 def drawGameState(screen, gs, validMoves, sqSelected):
     drawBoard(screen)  # draw squares on the board
     highlightSquares(screen, gs, validMoves, sqSelected)
     drawPieces(screen, gs.board)  # draw pieces on top of those squares
 
 # draw the squares on the board, top left square is always light
-
-
 def drawBoard(screen):
     global colors
     colors = [Color("white"), Color("gray")]
@@ -151,8 +147,6 @@ def drawBoard(screen):
                 c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
 # draw the pieces on the board using current gs.board
-
-
 def drawPieces(screen, board):
     for row in range(DIMENSION):
         for col in range(DIMENSION):
@@ -222,7 +216,6 @@ def play_game(screen, chosen_algo):
         for e in pygame.event.get():
             if e.type == KEYDOWN:
                 if e.key == K_ESCAPE or e.key == K_q:
-                    print(123)
                     running = False
 
             # mouse handler
