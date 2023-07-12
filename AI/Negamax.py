@@ -8,6 +8,7 @@ class Negamax(AI):
         random.shuffle(validMoves)
         self.counter = 0
         self.turn += 1
+        bestScore = self.findMoveNegaMaxAlphaBeta(gs, validMoves, self.DEPTH, -self.CHECKMATE, self.CHECKMATE, 1 if gs.whiteToMove else -1)
         return self.nextMove
 
     def findMoveNegaMax(self, gs, validMoves, depth, turn):
@@ -34,9 +35,7 @@ class Negamax(AI):
         for move in validMoves:
             gs.makeMove(move)
             nextMoves = gs.getAllValidMoves()
-            score = - \
-                self.findMoveNegaMaxAlphaBeta(
-                    gs, nextMoves, depth - 1, -beta, -alpha, -turn)
+            score = - self.findMoveNegaMaxAlphaBeta(gs, nextMoves, depth - 1, -beta, -alpha, -turn)
             gs.undoMove()
             if score > maxScore:
                 maxScore = score

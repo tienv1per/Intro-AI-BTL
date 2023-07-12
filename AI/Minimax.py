@@ -9,6 +9,7 @@ class Minimax(AI):
         random.shuffle(validMoves)
         alpha = -self.CHECKMATE
         beta = self.CHECKMATE
+        bestScore = self.findMoveMiniMaxAlphaBeta(gs, validMoves, self.DEPTH, alpha, beta, gs.whiteToMove)
         return self.nextMove
 
     def findMoveMinimax(self, gs, validMoves, depth, whiteToMove):
@@ -42,7 +43,7 @@ class Minimax(AI):
     
     def findMoveMiniMaxAlphaBeta(self, gs, validMoves, depth, alpha, beta, whiteToMove):
         if depth == 0:
-            return self.scoreBoard(gs)
+            return self.scoreMaterial(gs)
         if whiteToMove:
             maxScore = -self.CHECKMATE
             for move in validMoves:
